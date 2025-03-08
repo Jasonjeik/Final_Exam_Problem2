@@ -10,7 +10,7 @@ def load_data():
     return data
 
 # Título
-st.title("Panel de Admisiones, Retención y Satisfacción Universitaria")
+st.title("Panel de Estadistica Universitaria")
 
 # Cargar datos
 data = load_data()
@@ -22,7 +22,7 @@ page = st.sidebar.radio("Ir a", ["Introducción", "Admisiones", "Retención Estu
 if page == "Introducción":
     st.header("Introducción")
     st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-    st.image('data/logo.png', width=300, caption="Logo de la Universidad")
+    st.image('data/logo.png', width=300)
     st.markdown("</div>", unsafe_allow_html=True)
     st.write("Bienvenido al Panel de la Universidad. Use el panel de navegación para explorar diferentes aspectos de los datos.")
 
@@ -57,9 +57,10 @@ elif page == "Admisiones":
 
         fig_bar = px.bar(department_totals, x="Year", y=departments, title="% de Inscripciones por Departamento", labels={"value": "% de Inscripciones"}, barmode="stack")
         fig_bar.update_traces(texttemplate='%{y:.1f}%', textposition='inside')
+        fig_bar.add_traces(px.line(department_totals, x="Year", y=departments).data)
         st.plotly_chart(fig_bar)
 
-        st.write("- Consolidacion de nuestros departamentos de ingeniería y negocios.")
+        st.markdown("<div style='text-align: center;'>- Consolidacion de nuestros departamentos de ingeniería y negocios.</div>", unsafe_allow_html=True)
 
 elif page == "Retención Estudiantil":
     st.header("Retención Estudiantil")
@@ -81,5 +82,5 @@ elif page == "Satisfacción Estudiantil":
 elif page == "Información Relevante":
     st.header("Información Relevante")
     st.write("- Nuestra universidad se encuentra en constante crecimiento, mostrando una tendencia de retención ascendente.")
-    st.write("- La capacidad instala de la universidad nos ha permitido mantener el mismo número de adminisiones entre en cada temporada.")
+    st.write("- La capacidad instalada de la universidad nos ha permitido mantener el mismo número de admisiones entre cada temporada.")
     st.write("- La satisfacción estudiantil ha mejorado con el tiempo.")

@@ -61,8 +61,12 @@ elif page == "Admisiones":
 
 elif page == "Retención Estudiantil":
     st.header("Retención Estudiantil")
-    fig_retention = px.line(data, x="Year", y="Retention Rate (%)", color="Term", title="Tendencia de Retención a lo Largo del Tiempo")
+    fig_retention = px.line(data, x="Year", y="Retention Rate (%)", color="Term", title="Tendencia de Retención a lo Largo del Tiempo", markers=True)
+    fig_retention.add_traces(px.scatter(data, x="Year", y="Retention Rate (%)", color="Term").data)
     st.plotly_chart(fig_retention)
+
+    retention_growth_rate = ((data["Retention Rate (%)"].iloc[-1] - data["Retention Rate (%)"].iloc[0]) / data["Retention Rate (%)"].iloc[0]) / len(data["Year"].unique()) * 100
+    st.markdown(f"<div style='text-align: center; font-size: 20px;'><b>Razón Anual de Crecimiento Promedio: {retention_growth_rate:.1f}%</b></div>", unsafe_allow_html=True)
 
 elif page == "Satisfacción Estudiantil":
     st.header("Satisfacción Estudiantil")
@@ -71,6 +75,6 @@ elif page == "Satisfacción Estudiantil":
 
 elif page == "Información Relevante":
     st.header("Información Relevante")
-    st.write("- nuestra universidad se encuentra en constante crecimiento, mostrando una tendencia de retención ascendente.")
+    st.write("- Nuestra universidad se encuentra en constante crecimiento, mostrando una tendencia de retención ascendente.")
     st.write("- La capacidad instala de la universidad nos ha permitido mantener el mismo número de adminisiones en cada temporada.")
     st.write("- La satisfacción estudiantil ha mejorado con el tiempo.")

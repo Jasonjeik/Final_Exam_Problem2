@@ -21,7 +21,9 @@ page = st.sidebar.radio("Ir a", ["Introducción", "Admisiones", "Retención Estu
 
 if page == "Introducción":
     st.header("Introducción")
+    st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
     st.image('data/logo.png', width=300, caption="Logo de la Universidad")
+    st.markdown("</div>", unsafe_allow_html=True)
     st.write("Bienvenido al Panel de la Universidad. Use el panel de navegación para explorar diferentes aspectos de los datos.")
 
 elif page == "Admisiones":
@@ -33,10 +35,11 @@ elif page == "Admisiones":
     view_option = st.radio("Seleccione Vista", ["Métricas", "Gráfico de Torta"])
 
     if view_option == "Métricas":
-        st.metric("Total de Aplicaciones", filtered_data["Applications"].values[0])
-        st.metric("Total Admitidos", filtered_data["Admitted"].values[0])
-        st.metric("Total Inscritos", filtered_data["Enrolled"].values[0])
-    
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Total de Aplicaciones", filtered_data["Applications"].values[0])
+        col2.metric("Total Admitidos", filtered_data["Admitted"].values[0])
+        col3.metric("Total Inscritos", filtered_data["Enrolled"].values[0])
+
     elif view_option == "Gráfico de Torta":
         departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
         department_data = filtered_data[departments].T.reset_index()

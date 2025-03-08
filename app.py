@@ -47,6 +47,7 @@ elif page == "Admisiones":
         department_data.columns = ["Departamento", "Inscritos"]
 
         fig_pie = px.pie(department_data, names="Departamento", values="Inscritos", title="Inscripciones por Departamento")
+        fig_pie.update_traces(textinfo='percent+label', insidetextorientation='radial', texttemplate='%{percent:.1%}')
         st.plotly_chart(fig_pie)
 
     elif view_option == "Gráfico de Barras Acumulado":
@@ -55,6 +56,7 @@ elif page == "Admisiones":
         department_totals = department_totals.reset_index()
 
         fig_bar = px.bar(department_totals, x="Year", y=departments, title="% de Inscripciones por Departamento", labels={"value": "% de Inscripciones"}, barmode="stack")
+        fig_bar.update_traces(texttemplate='%{y:.1f}%', textposition='inside')
         st.plotly_chart(fig_bar)
 
 elif page == "Retención Estudiantil":

@@ -29,14 +29,14 @@ elif page == "Admissions & Enrollment":
     selected_term = st.sidebar.selectbox("Select Term", data["Term"].unique())
     filtered_data = data[(data["Year"] == selected_year) & (data["Term"] == selected_term)]
 
-    col1, col2 = st.columns([2, 1])
+    view_option = st.radio("Select View", ["Metrics", "Pie Chart"])
 
-    with col1:
+    if view_option == "Metrics":
         st.metric("Total Applications", filtered_data["Applications"].values[0])
         st.metric("Total Admitted", filtered_data["Admitted"].values[0])
         st.metric("Total Enrolled", filtered_data["Enrolled"].values[0])
-
-    with col2:
+    
+    elif view_option == "Pie Chart":
         departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
         department_data = filtered_data[departments].T.reset_index()
         department_data.columns = ["Department", "Enrolled"]

@@ -48,6 +48,14 @@ elif page == "Admisiones":
         fig_pie = px.pie(department_data, names="Departamento", values="Inscritos", title="Inscripciones por Departamento")
         st.plotly_chart(fig_pie)
 
+    elif view_option == "Gráfico de Barras Acumulado":
+        department_totals = data.groupby("Year")[departments].sum()
+        department_totals = department_totals.div(department_totals.sum(axis=1), axis=0) * 100
+        department_totals = department_totals.reset_index()
+
+        fig_bar = px.bar(department_totals, x="Year", y=departments, title="% de Inscripciones por Departamento", labels={"value": "% de Inscripciones"}, barmode="stack")
+        st.plotly_chart(fig_bar)
+
 elif page == "Retención Estudiantil":
     st.header("Retención Estudiantil")
     fig_retention = px.line(data, x="Year", y="Retention Rate (%)", color="Term", title="Tendencia de Retención a lo Largo del Tiempo")

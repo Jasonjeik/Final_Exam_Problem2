@@ -32,6 +32,8 @@ elif page == "Admisiones":
     selected_term = st.sidebar.selectbox("Seleccione el Periodo", data["Term"].unique())
     filtered_data = data[(data["Year"] == selected_year) & (data["Term"] == selected_term)]
 
+    departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
+
     view_option = st.radio("Seleccione Vista", ["Métricas", "Gráfico de Torta", "Gráfico de Barras Acumulado"])
 
     if view_option == "Métricas":
@@ -41,7 +43,6 @@ elif page == "Admisiones":
         col3.metric("Total Inscritos", filtered_data["Enrolled"].values[0])
 
     elif view_option == "Gráfico de Torta":
-        departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
         department_data = filtered_data[departments].T.reset_index()
         department_data.columns = ["Departamento", "Inscritos"]
 
@@ -68,6 +69,6 @@ elif page == "Satisfacción Estudiantil":
 
 elif page == "Información Relevante":
     st.header("Información Relevante")
-    st.write("- La tasa de retención ha mostrado una tendencia constante a lo largo de los años.")
-    st.write("- Los departamentos de Ingeniería y Negocios tienen las mayores inscripciones.")
+    st.write("- nuestra universidad se encuentra en constante crecimiento, mostrando una tendencia de retención ascendente.")
+    st.write("- La capacidad instala de la universidad nos ha permitido mantener el mismo número de adminisiones en cada temporada.")
     st.write("- La satisfacción estudiantil ha mejorado con el tiempo.")

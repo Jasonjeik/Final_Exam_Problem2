@@ -15,38 +15,43 @@ st.title("University Admissions, Retention, and Satisfaction Dashboard")
 # Cargar datos
 data = load_data()
 
-# Sidebar
-st.sidebar.header("Filters")
-selected_year = st.sidebar.selectbox("Select Year", sorted(data["Year"].unique()))
-selected_term = st.sidebar.selectbox("Select Term", data["Term"].unique())
+# Sidebar para navegación
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to", ["Overview", "Admissions & Enrollment", "Retention Trends", "Satisfaction Trends", "Key Insights"])
 
-# Filtrar datos
-filtered_data = data[(data["Year"] == selected_year) & (data["Term"] == selected_term)]
+if page == "Overview":
+    st.header("Overview")
+    st.write("Welcome to the University Dashboard. Use the navigation panel to explore different aspects of the data.")
 
-# KPIs
-st.metric("Total Applications", filtered_data["Applications"].values[0])
-st.metric("Total Admitted", filtered_data["Admitted"].values[0])
-st.metric("Total Enrolled", filtered_data["Enrolled"].values[0])
-st.metric("Retention Rate (%)", filtered_data["Retention Rate (%)"].values[0])
-st.metric("Student Satisfaction (%)", filtered_data["Student Satisfaction (%)"].values[0])
+elif page == "Admissions & Enrollment":
+    st.header("Admissions & Enrollment")
+    selected_year = st.sidebar.selectbox("Select Year", sorted(data["Year"].unique()))
+    selected_term = st.sidebar.selectbox("Select Term", data["Term"].unique())
+    filtered_data = data[(data["Year"] == selected_year) & (data["Term"] == selected_term)]
 
-# Gráfico de inscripciones por departamento
-departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
-department_data = filtered_data[departments].T.reset_index()
-department_data.columns = ["Department", "Enrolled"]
+    st.metric("Total Applications", filtered_data["Applications"].values[0])
+    st.metric("Total Admitted", filtered_data["Admitted"].values[0])
+    st.metric("Total Enrolled", filtered_data["Enrolled"].values[0])
 
-fig_pie = px.pie(department_data, names="Department", values="Enrolled", title="Enrollment by Department")
-st.plotly_chart(fig_pie)
+    departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
+    department_data = filtered_data[departments].T.reset_index()
+    department_data.columns = ["Department", "Enrolled"]
 
-# Línea de tendencia para Retención
-fig_retention = px.line(data, x="Year", y="Retention Rate (%)", color="Term", title="Retention Rate Over Time")
-st.plotly_chart(fig_retention)
+    fig_pie = px.pie(department_data, names="Department", values="Enrolled", title="Enrollment by Department")
+    st.plotly_chart(fig_pie)
 
-# Línea de tendencia para Satisfacción
-fig_satisfaction = px.line(data, x="Year", y="Student Satisfaction (%)", color="Term", title="Student Satisfaction Over Time")
-st.plotly_chart(fig_satisfaction)
+elif page == "Retention Trends":
+    st.header("Retention Trends")
+    fig_retention = px.line(data, x="Year", y="Retention Rate (%)", color="Term", title="Retention Rate Over Time")
+    st.plotly_chart(fig_retention)
 
-st.write("### Key Insights")
-st.write("- The retention rate has shown a consistent trend over the years.")
-st.write("- Engineering and Business departments have the highest enrollments.")
-st.write("- Student satisfaction has been improving over time.")
+elif page == "Satisfaction Trends":
+    st.header("Satisfaction Trends")
+    fig_satisfaction = px.line(data, x="Year", y="Student Satisfaction (%)", color="Term", title="Student Satisfaction Over Time")
+    st.plotly_chart(fig_satisfaction)
+
+elif page == "Key Insights":
+    st.header("Key Insights")
+    st.write("- The retention rate has shown a consistent trend over the years.")
+    st.write("- Engineering and Business departments have the highest enrollments.")
+    st.write("- Student satisfaction has been improving over time.")

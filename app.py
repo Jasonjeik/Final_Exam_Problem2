@@ -29,17 +29,21 @@ elif page == "Admissions & Enrollment":
     selected_term = st.sidebar.selectbox("Select Term", data["Term"].unique())
     filtered_data = data[(data["Year"] == selected_year) & (data["Term"] == selected_term)]
 
-    st.metric("Total Applications", filtered_data["Applications"].values[0])
-    st.metric("Total Admitted", filtered_data["Admitted"].values[0])
-    st.metric("Total Enrolled", filtered_data["Enrolled"].values[0])
+    col1, col2 = st.columns([2, 1])
 
-    departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
-    department_data = filtered_data[departments].T.reset_index()
-    department_data.columns = ["Department", "Enrolled"]
+    with col1:
+        st.metric("Total Applications", filtered_data["Applications"].values[0])
+        st.metric("Total Admitted", filtered_data["Admitted"].values[0])
+        st.metric("Total Enrolled", filtered_data["Enrolled"].values[0])
 
-    fig_pie = px.pie(department_data, names="Department", values="Enrolled", title="Enrollment by Department")
-    st.plotly_chart(fig_pie)
+    with col2:
+        departments = ["Engineering Enrolled", "Business Enrolled", "Arts Enrolled", "Science Enrolled"]
+        department_data = filtered_data[departments].T.reset_index()
+        department_data.columns = ["Department", "Enrolled"]
 
+        fig_pie = px.pie(department_data, names="Department", values="Enrolled", title="Enrollment by Department")
+        st.plotly_chart(fig_pie)
+        
 elif page == "Retention Trends":
     st.header("Retention Trends")
     fig_retention = px.line(data, x="Year", y="Retention Rate (%)", color="Term", title="Retention Rate Over Time")

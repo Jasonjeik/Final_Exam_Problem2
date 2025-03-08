@@ -17,11 +17,13 @@ data = load_data()
 
 # Sidebar para navegación
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Overview", "Admissions & Enrollment", "Retention Trends", "Satisfaction Trends", "Key Insights"])
+page = st.sidebar.radio("Go to", ["Introducción", "Admisiones", "Retención Estudiantil", "Satisfacción Estudiantil", "Información Relevante"])
 
 if page == "Overview":
     st.header("Overview")
-    st.write("Welcome to the University Dashboard. Use the navigation panel to explore different aspects of the data.")
+    st.image('data/logo.png', width=300, caption="University Logo")
+    st.write("Bienvenido al Panel de control de la universidad. Utilice el panel de navegación para explorar diferentes aspectos de los datos.")
+    
 
 elif page == "Admissions & Enrollment":
     st.header("Admissions & Enrollment")

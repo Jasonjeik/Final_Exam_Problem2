@@ -32,7 +32,7 @@ elif page == "Admisiones":
     selected_term = st.sidebar.selectbox("Seleccione el Periodo", data["Term"].unique())
     filtered_data = data[(data["Year"] == selected_year) & (data["Term"] == selected_term)]
 
-    view_option = st.radio("Seleccione Vista", ["Métricas", "Gráfico de Torta"])
+    view_option = st.radio("Seleccione Vista", ["Métricas", "Gráfico de Torta", "Gráfico de Barras Acumulado"])
 
     if view_option == "Métricas":
         col1, col2, col3 = st.columns(3)
